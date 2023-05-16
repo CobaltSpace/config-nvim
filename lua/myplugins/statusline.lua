@@ -1,8 +1,8 @@
 return {
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = 'kyazdani42/nvim-web-devicons',
-    -- enabled = false,
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    enabled = false,
     opts = {
       options = { globalstatus = true },
       tabline = {
@@ -22,13 +22,16 @@ return {
   {
     'freddiehaddad/feline.nvim',
     enabled = false,
-    dependencies = 'kyazdani42/nvim-web-devicons',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+      'lewis6991/gitsigns.nvim'
+    },
     config = true,
   },
   {
     'NTBBloodbath/galaxyline.nvim',
     enabled = false,
-    dependencies = 'kyazdani42/nvim-web-devicons',
+    dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
       require('galaxyline.themes.eviline')
     end
@@ -36,7 +39,20 @@ return {
   {
     'rebelot/heirline.nvim',
     enabled = false,
-    dependencies = 'kyazdani42/nvim-web-devicons',
+    dependencies = 'nvim-tree/nvim-web-devicons',
     config = true
+  },
+  {
+    'echasnovski/mini.statusline',
+    -- enabled = false,
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+      'lewis6991/gitsigns.nvim'
+    },
+    opts = function()
+      vim.opt.laststatus = 3
+
+      return { set_vim_settings = false }
+    end
   },
 }
