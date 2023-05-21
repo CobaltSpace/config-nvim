@@ -12,16 +12,16 @@
 
 -- vim.opt.packpath = vim.opt.runtimepath:get()
 
-vim.opt.termguicolors = true
+vim.o.termguicolors = true
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
     lazypath,
   })
 end
@@ -37,10 +37,10 @@ if vim.g.neovide then
 
   vim.g.gui_font_default_size = 12
   vim.g.gui_font_size = vim.g.gui_font_default_size
-  vim.g.gui_font_face = [[FantasqueSansM Nerd Font]]
+  vim.g.gui_font_face = 'FantasqueSansM Nerd Font'
 
   RefreshGuiFont = function()
-    vim.opt.guifont = string.format("%s:h%s", vim.g.gui_font_face, vim.g.gui_font_size)
+    vim.opt.guifont = string.format('%s:h%s', vim.g.gui_font_face, vim.g.gui_font_size)
   end
 
   ResizeGuiFont = function(delta)
@@ -65,7 +65,51 @@ if vim.g.neovide then
   vim.keymap.set({ 'n', 'i' }, "<C-0>", function() ResetGuiFont() end, opts)
 end
 
-vim.cmd.source(vim.fn.stdpath('config') .. '/both.vim')
+-- vim.cmd.source(vim.fn.stdpath('config') .. '/both.vim')
+
+vim.o.autochdir = true
+vim.o.autoread = true
+vim.o.scrolloff = 1
+vim.o.sidescrolloff = 5
+
+-- autocmd BufReadPost *
+--       \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+--       \ |   exe "normal! g`\""
+--       \ | endif
+
+vim.o.mouse = 'a'
+vim.o.undofile = true
+vim.o.conceallevel = 2
+vim.o.concealcursor = 'n'
+vim.g.vimsyn_embed = 'lmpPrt'
+vim.o.spell = true
+vim.opt.spelllang = { 'en', 'cjk' }
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.numberwidth = 1
+vim.cmd.filetype 'indent on'
+vim.o.expandtab = true
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
+vim.o.list = true
+-- lcs=tab:\▏\
+vim.opt.lcs = { tab = '▏ ' }
+
+local filetype_autocmd = function(pattern, filetype)
+  vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+    pattern = pattern,
+    callback = function()
+      vim.cmd.setfiletype(filetype)
+    end
+  })
+end
+
+filetype_autocmd('*.rasi', 'css')
+filetype_autocmd({ '*.ffpreset', '*.avpreset', '*.hook' }, 'conf')
+filetype_autocmd('*.mcmeta', 'json')
+filetype_autocmd('*.i3config', 'i3config')
+filetype_autocmd('*.swayconfig', 'swayconfig')
+filetype_autocmd({ '/var/tmp/*.service', '/var/tmp/*.timer' }, 'systemd')
 
 vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()
@@ -73,7 +117,7 @@ vim.api.nvim_create_autocmd('TermOpen', {
     vim.opt_local.number = false
     vim.opt_local.relativenumber = false
     vim.opt_local.conceallevel = 0
-    vim.cmd 'startinsert'
+    vim.cmd.startinsert()
   end
 })
 
