@@ -37,7 +37,7 @@ if vim.g.neovide then
 
   vim.g.gui_font_default_size = 12
   vim.g.gui_font_size = vim.g.gui_font_default_size
-  vim.g.gui_font_face = [[FantasqueSansMono Nerd Font]]
+  vim.g.gui_font_face = [[FantasqueSansM Nerd Font]]
 
   RefreshGuiFont = function()
     vim.opt.guifont = string.format("%s:h%s", vim.g.gui_font_face, vim.g.gui_font_size)
