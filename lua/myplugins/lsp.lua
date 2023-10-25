@@ -11,7 +11,7 @@ end
 return {
   {
     'neovim/nvim-lspconfig',
-    dependencies = { 'j-hui/fidget.nvim', config = true },
+    dependencies = { 'j-hui/fidget.nvim', tag = "legacy", config = true },
     ft = { 'awk', 'sh', 'cmake', 'python', 'vim' },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -112,7 +112,11 @@ return {
     'https://git.sr.ht/~p00f/clangd_extensions.nvim',
     dependencies = 'neovim/nvim-lspconfig',
     ft = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
-    opts = { server = default_setup() }
+    config = function ()
+      require('clangd_extensions.inlay_hints').setup_autocmd()
+      require('clangd_extensions.inlay_hints').set_inlay_hints()
+      require('lspconfig').clangd.setup(default_setup())
+    end
   },
   {
     'folke/neodev.nvim',
