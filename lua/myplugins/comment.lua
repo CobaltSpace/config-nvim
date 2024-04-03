@@ -11,7 +11,6 @@ return {
   {
     'echasnovski/mini.comment',
     -- enabled = false,
-    main   = 'mini.comment',
     config = true,
     keys   = {
       { 'gc', mode = { 'n', 'v' } },

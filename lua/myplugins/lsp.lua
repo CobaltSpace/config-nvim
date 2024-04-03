@@ -2,7 +2,7 @@ local function capabilities()
   return require('cmp_nvim_lsp').default_capabilities()
 end
 
-local function default_setup()
+local function generate_default_setup()
   return {
     capabilities = capabilities()
   }
@@ -12,7 +12,7 @@ return {
   {
     'neovim/nvim-lspconfig',
     dependencies = { 'j-hui/fidget.nvim', tag = "legacy", config = true },
-    ft = { 'awk', 'sh', 'cmake', 'python', 'vim' },
+    ft = { 'awk', 'sh', 'cmake', 'haskell', 'lhaskell', 'markdown', 'python', 'tex', 'vim' },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -71,11 +71,16 @@ return {
         silent = true,
       })
 
-      lspconfig.awk_ls.setup(default_setup())
-      lspconfig.bashls.setup(default_setup())
-      lspconfig.cmake.setup(default_setup())
-      lspconfig.pylsp.setup(default_setup())
-      lspconfig.vimls.setup(default_setup())
+      local default_setup = generate_default_setup()
+
+      lspconfig.awk_ls.setup(default_setup)
+      lspconfig.bashls.setup(default_setup)
+      lspconfig.cmake.setup(default_setup)
+      lspconfig.hls.setup(default_setup)
+      lspconfig.marksman.setup(default_setup)
+      lspconfig.pylsp.setup(default_setup)
+      lspconfig.texlab.setup(default_setup)
+      lspconfig.vimls.setup(default_setup)
     end
   },
   {
@@ -112,10 +117,11 @@ return {
     'https://git.sr.ht/~p00f/clangd_extensions.nvim',
     dependencies = 'neovim/nvim-lspconfig',
     ft = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
-    config = function ()
-      require('clangd_extensions.inlay_hints').setup_autocmd()
-      require('clangd_extensions.inlay_hints').set_inlay_hints()
-      require('lspconfig').clangd.setup(default_setup())
+    config = function()
+      local inlay_hints = require 'clangd_extensions.inlay_hints'
+      inlay_hints.setup_autocmd()
+      inlay_hints.set_inlay_hints()
+      require('lspconfig').clangd.setup(generate_default_setup())
     end
   },
   {

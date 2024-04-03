@@ -72,10 +72,10 @@ vim.o.autoread = true
 vim.o.scrolloff = 1
 vim.o.sidescrolloff = 5
 
--- autocmd BufReadPost *
---       \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
---       \ |   exe "normal! g`\""
---       \ | endif
+vim.api.nvim_create_autocmd('BufReadPost', {
+  command = [[ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif ]]
+})
+
 
 vim.o.mouse = 'a'
 vim.o.undofile = true
@@ -94,6 +94,7 @@ vim.o.softtabstop = 2
 vim.o.list = true
 -- lcs=tab:\▏\
 vim.opt.lcs = { tab = '▏ ' }
+-- vim.g.c_syntax_for_h = 1
 
 local filetype_autocmd = function(pattern, filetype)
   vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
@@ -110,6 +111,13 @@ filetype_autocmd('*.mcmeta', 'json')
 filetype_autocmd('*.i3config', 'i3config')
 filetype_autocmd('*.swayconfig', 'swayconfig')
 filetype_autocmd({ '/var/tmp/*.service', '/var/tmp/*.timer' }, 'systemd')
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = {'c', 'cpp'},
+  callback = function()
+    vim.bo.commentstring = '// %s'
+  end
+})
 
 vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()

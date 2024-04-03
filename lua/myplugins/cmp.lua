@@ -51,11 +51,11 @@ return {
           end,
         },
         sources = {
-          { name = 'buffer' },
-          { name = 'path' },
           { name = 'nvim_lsp' },
+          { name = 'path' },
           { name = 'luasnip' },
           { name = 'crates' },
+          { name = 'buffer' },
         },
       }
 
