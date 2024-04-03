@@ -3,4 +3,5 @@ return {
 
   'h-hg/fcitx.nvim',
   'theRealCarneiro/hyprland-vim-syntax',
+  'rpdelaney/vim-sourcecfg',
 }

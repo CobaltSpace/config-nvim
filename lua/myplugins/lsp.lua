@@ -91,6 +91,7 @@ return {
       'nvim-lua/plenary.nvim'
     },
     ft = 'rust',
+    event = 'BufEnter Cargo.toml',
     opts = function()
       local rt = require 'rust-tools'
       return {
