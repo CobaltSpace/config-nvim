@@ -32,7 +32,7 @@ vim.g.mapleader = ' '
 require('lazy').setup 'myplugins'
 
 if vim.g.neovide then
-  vim.g.neovide_transparency = 0.7
+  vim.g.neovide_transparency    = 0.7
   vim.g.neovide_cursor_vfx_mode = 'railgun'
 
   vim.g.gui_font_default_size = 12
@@ -67,57 +67,61 @@ end
 
 -- vim.cmd.source(vim.fn.stdpath('config') .. '/both.vim')
 
-vim.o.autochdir = true
-vim.o.autoread = true
-vim.o.scrolloff = 1
+vim.o.autochdir     = true
+vim.o.autoread      = true
+vim.o.scrolloff     = 1
 vim.o.sidescrolloff = 5
 
 vim.api.nvim_create_autocmd('BufReadPost', {
   command = [[ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif ]]
 })
 
-
-vim.o.mouse = 'a'
-vim.o.undofile = true
-vim.o.conceallevel = 2
-vim.o.concealcursor = 'n'
-vim.g.vimsyn_embed = 'lmpPrt'
-vim.o.spell = true
-vim.opt.spelllang = { 'en', 'cjk' }
-vim.o.number = true
+vim.o.mouse          = 'a'
+vim.o.undofile       = true
+vim.o.conceallevel   = 2
+vim.o.concealcursor  = 'n'
+vim.g.vimsyn_embed   = 'lmpPrt'
+vim.o.spell          = true
+vim.opt.spelllang    = { 'en', 'cjk' }
+vim.o.number         = true
 vim.o.relativenumber = true
-vim.o.numberwidth = 1
+vim.o.numberwidth    = 1
 vim.cmd.filetype 'indent on'
-vim.o.expandtab = true
-vim.o.shiftwidth = 2
+vim.o.expandtab   = true
+vim.o.shiftwidth  = 2
 vim.o.softtabstop = 2
-vim.o.list = true
--- lcs=tab:\▏\
-vim.opt.lcs = { tab = '▏ ' }
+vim.o.list        = true
+vim.opt.lcs       = { tab = '▏ ' }
 -- vim.g.c_syntax_for_h = 1
 
-local filetype_autocmd = function(pattern, filetype)
-  vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-    pattern = pattern,
-    callback = function()
-      vim.cmd.setfiletype(filetype)
+vim.filetype.add {
+  extension = {
+    ffpreset   = 'conf',
+    avpreset   = 'conf',
+    hook       = 'conf',
+    rasi       = 'css',
+    i3config   = 'i3config',
+    mcmeta     = 'json',
+    swayconfig = 'swayconfig',
+  },
+  pattern = {
+    ['.*/hypr/.*%.conf']   = 'hyprlang',
+    ['/var/tmp/*.service'] = 'systemd',
+    ['/var/tmp/*.timer']   = 'systemd',
+  },
+}
+
+local commentstring_autocmd = function(filetypes, string)
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = filetypes,
+    callback = function(event)
+      vim.bo[event.buf].commentstring = string
     end
   })
 end
 
-filetype_autocmd('*.rasi', 'css')
-filetype_autocmd({ '*.ffpreset', '*.avpreset', '*.hook' }, 'conf')
-filetype_autocmd('*.mcmeta', 'json')
-filetype_autocmd('*.i3config', 'i3config')
-filetype_autocmd('*.swayconfig', 'swayconfig')
-filetype_autocmd({ '/var/tmp/*.service', '/var/tmp/*.timer' }, 'systemd')
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = {'c', 'cpp'},
-  callback = function()
-    vim.bo.commentstring = '// %s'
-  end
-})
+commentstring_autocmd({ 'c', 'cpp' }, '// %s')
+commentstring_autocmd('hyprlang', '# %s')
 
 vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()

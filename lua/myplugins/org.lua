@@ -5,6 +5,6 @@ return {
   opts = {
     org_agenda_files = { '~/Documents/Org/*' },
     org_default_notes_file = '~/Documents/Org/notes.org',
-    org_indent_mode = 'noindent',
+    org_startup_indented = true,
   }
 }

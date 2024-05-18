@@ -8,7 +8,10 @@ return {
     '3rd/image.nvim',
     lazy = true,
     opts = {
-      backend = 'ueberzug'
+      backend = 'ueberzug',
+      neorg = {
+        filetypes = { "norg", "org" },
+      },
     }
   }
 }

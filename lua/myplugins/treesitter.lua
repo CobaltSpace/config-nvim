@@ -5,7 +5,6 @@ return {
   opts = function()
     vim.opt.foldmethod = 'expr'
     vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-    require('orgmode').setup_ts_grammar()
 
     return {
       -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
