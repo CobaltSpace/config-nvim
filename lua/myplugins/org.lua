@@ -1,6 +1,14 @@
 return {
   'nvim-orgmode/orgmode',
-  dependencies = 'akinsho/org-bullets.nvim',
+  dependencies = {
+    'akinsho/org-bullets.nvim',
+    {
+      'chipsenkbeil/org-roam.nvim',
+      opts = {
+        directory = '~/Documents/Org/roam/'
+      }
+    },
+  },
   ft = 'org',
   opts = {
     org_agenda_files = { '~/Documents/Org/*' },

@@ -35,20 +35,20 @@ if vim.g.neovide then
   vim.g.neovide_transparency    = 0.7
   vim.g.neovide_cursor_vfx_mode = 'railgun'
 
-  vim.g.gui_font_default_size = 12
-  vim.g.gui_font_size = vim.g.gui_font_default_size
-  vim.g.gui_font_face = 'FantasqueSansM Nerd Font'
+  vim.g.gui_font_default_size   = 12
+  vim.g.gui_font_size           = vim.g.gui_font_default_size
+  vim.g.gui_font_face           = 'FantasqueSansM Nerd Font'
 
-  RefreshGuiFont = function()
+  RefreshGuiFont                = function()
     vim.opt.guifont = string.format('%s:h%s', vim.g.gui_font_face, vim.g.gui_font_size)
   end
 
-  ResizeGuiFont = function(delta)
+  ResizeGuiFont                 = function(delta)
     vim.g.gui_font_size = vim.g.gui_font_size + delta
     RefreshGuiFont()
   end
 
-  ResetGuiFont = function()
+  ResetGuiFont                  = function()
     vim.g.gui_font_size = vim.g.gui_font_default_size
     RefreshGuiFont()
   end
@@ -71,6 +71,7 @@ vim.o.autochdir     = true
 vim.o.autoread      = true
 vim.o.scrolloff     = 1
 vim.o.sidescrolloff = 5
+vim.o.title         = true
 
 vim.api.nvim_create_autocmd('BufReadPost', {
   command = [[ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif ]]
@@ -99,7 +100,7 @@ vim.filetype.add {
     ffpreset   = 'conf',
     avpreset   = 'conf',
     hook       = 'conf',
-    rasi       = 'css',
+    rasi       = 'rasi',
     i3config   = 'i3config',
     mcmeta     = 'json',
     swayconfig = 'swayconfig',
@@ -121,7 +122,7 @@ local commentstring_autocmd = function(filetypes, string)
 end
 
 commentstring_autocmd({ 'c', 'cpp' }, '// %s')
-commentstring_autocmd('hyprlang', '# %s')
+commentstring_autocmd({ 'hyprlang', 'editorconfig' }, '# %s')
 
 vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()
@@ -140,12 +141,13 @@ vim.api.nvim_create_autocmd('TermOpen', {
 
 vim.opt.guicursor:append 'a:blinkwait1-blinkon530-blinkoff530'
 
-local myColorSchemes = {
-  'kanagawa',
-  'tokyonight',
-  'onedark',
-  'gruvbox-material',
-  'catppuccin',
-}
-
-vim.cmd.colorscheme(myColorSchemes[math.random(#myColorSchemes)])
+-- local myColorSchemes = {
+--   'kanagawa',
+--   'tokyonight',
+--   'onedark',
+--   'gruvbox-material',
+--   'catppuccin',
+-- }
+--
+-- vim.cmd.colorscheme(myColorSchemes[math.random(#myColorSchemes)])
+vim.cmd.colorscheme 'catppuccin'

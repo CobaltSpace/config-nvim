@@ -6,8 +6,8 @@ return {
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       {
-        'saadparwaiz1/cmp_luasnip',                          -- Snippets source for nvim-cmp
-        dependencies = { 'L3MON4D3/LuaSnip', version = '*' } -- Snippets plugin
+        'saadparwaiz1/cmp_luasnip',                         -- Snippets source for nvim-cmp
+        depedencies = { 'L3MON4D3/LuaSnip', version = '*' } -- Snippets plugin
       },
     },
     event = 'InsertEnter',
@@ -55,6 +55,10 @@ return {
           { name = 'path' },
           { name = 'luasnip' },
           { name = 'crates' },
+          { name = 'cmp_tabnine' },
+          { name = 'codeium' },
+          { name = 'cody' },
+          { name = 'supermaven' },
           { name = 'buffer' },
         },
       }
@@ -91,5 +95,5 @@ return {
           })
       })
     end
-  }
+  },
 }

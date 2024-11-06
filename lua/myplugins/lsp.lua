@@ -12,7 +12,7 @@ return {
   {
     'neovim/nvim-lspconfig',
     dependencies = { 'j-hui/fidget.nvim', tag = "legacy", config = true },
-    ft = { 'awk', 'sh', 'cmake', 'haskell', 'lhaskell', 'markdown', 'python', 'tex', 'vim' },
+    ft = { 'arduino', 'awk', 'sh', 'cmake', 'css', 'haskell', 'html', 'javascript', 'javascriptreact', 'lhaskell', 'markdown', 'nix', 'python', 'sql', 'tex', 'typescript', 'vim' },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -40,7 +40,11 @@ return {
           vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { desc = 'code action', buffer = ev.buf })
           vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = 'references', buffer = ev.buf })
           vim.keymap.set('n', '<space>f', function()
-            vim.lsp.buf.format { async = true }
+            vim.lsp.buf.format {
+              filter = function(client)
+                return client.name ~= "tsserver"
+              end,
+              async = true }
           end, { desc = 'format', buffer = ev.buf })
         end,
       })
@@ -73,13 +77,41 @@ return {
 
       local default_setup = generate_default_setup()
 
+      lspconfig.arduino_language_server.setup(default_setup)
       lspconfig.awk_ls.setup(default_setup)
       lspconfig.bashls.setup(default_setup)
       lspconfig.cmake.setup(default_setup)
+      lspconfig.cssls.setup(default_setup)
+      lspconfig.eslint.setup(default_setup)
       lspconfig.hls.setup(default_setup)
+      lspconfig.html.setup(default_setup)
       lspconfig.marksman.setup(default_setup)
+      -- lspconfig.nil_ls.setup(default_setup)
+      lspconfig.nixd.setup {
+        capabilities = capabilities(),
+        settings = {
+          nixd = {
+            options = {
+              home_manager = {
+                expr = '(import <home-manager/modules> { configuration = ~/.config/home-manager/home.nix; pkgs = import <nixpkgs> {}; }).options'
+              }
+            }
+          }
+        }
+      }
+      lspconfig.postgres_lsp.setup(default_setup)
       lspconfig.pylsp.setup(default_setup)
+      lspconfig.ruff.setup(default_setup)
+      -- lspconfig.stylelint_lsp.setup(default_setup)
       lspconfig.texlab.setup(default_setup)
+      -- lspconfig.tsserver.setup {
+      --   ---@diagnostic disable-next-line: unused-local
+      --   on_attach = function(client, bufnr)
+      --     -- local ns = vim.lsp.diagnostic.get_namespace(client.id)
+      --     -- vim.diagnostic.enable(false, { ns_id = ns })
+      --   end,
+      --   capabilities = capabilities(),
+      -- }
       lspconfig.vimls.setup(default_setup)
     end
   },
@@ -158,4 +190,10 @@ return {
       }
     end
   },
+  -- {
+  --   'mrcjkb/haskell-tools.nvim',
+  --   dependencies = 'neovim/nvim-lspconfig',
+  --   version = '^3', -- Recommended
+  --   ft = { 'haskell', 'lhaskell' }
+  -- }
 }
