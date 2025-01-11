@@ -67,31 +67,29 @@ end
 
 -- vim.cmd.source(vim.fn.stdpath('config') .. '/both.vim')
 
-vim.o.autochdir     = true
-vim.o.autoread      = true
-vim.o.scrolloff     = 1
-vim.o.sidescrolloff = 5
-vim.o.title         = true
+vim.opt.autochdir     = true
+vim.opt.autoread      = true
+vim.opt.scrolloff     = 1
+vim.opt.sidescrolloff = 5
+vim.opt.title         = true
 
 vim.api.nvim_create_autocmd('BufReadPost', {
   command = [[ if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif ]]
 })
 
-vim.o.mouse          = 'a'
-vim.o.undofile       = true
-vim.o.conceallevel   = 2
-vim.o.concealcursor  = 'n'
+vim.opt.mouse          = 'a'
+vim.opt.undofile       = true
+vim.opt.conceallevel   = 2
+vim.opt.concealcursor  = 'n'
 vim.g.vimsyn_embed   = 'lmpPrt'
-vim.o.spell          = true
+vim.opt.spell          = true
 vim.opt.spelllang    = { 'en', 'cjk' }
-vim.o.number         = true
-vim.o.relativenumber = true
-vim.o.numberwidth    = 1
+vim.opt.number         = true
+vim.opt.relativenumber = true
+vim.opt.numberwidth    = 1
 vim.cmd.filetype 'indent on'
-vim.o.expandtab   = true
-vim.o.shiftwidth  = 2
-vim.o.softtabstop = 2
-vim.o.list        = true
+vim.opt.expandtab   = true
+vim.opt.list        = true
 vim.opt.lcs       = { tab = '▏ ' }
 -- vim.g.c_syntax_for_h = 1
 
@@ -111,18 +109,6 @@ vim.filetype.add {
     ['/var/tmp/*.timer']   = 'systemd',
   },
 }
-
-local commentstring_autocmd = function(filetypes, string)
-  vim.api.nvim_create_autocmd('FileType', {
-    pattern = filetypes,
-    callback = function(event)
-      vim.bo[event.buf].commentstring = string
-    end
-  })
-end
-
-commentstring_autocmd({ 'c', 'cpp' }, '// %s')
-commentstring_autocmd({ 'hyprlang', 'editorconfig' }, '# %s')
 
 vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()
