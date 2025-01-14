@@ -39,13 +39,6 @@ return {
           vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, { desc = 'rename', buffer = ev.buf })
           vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, { desc = 'code action', buffer = ev.buf })
           vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = 'references', buffer = ev.buf })
-          vim.keymap.set('n', '<space>f', function()
-            vim.lsp.buf.format {
-              filter = function(client)
-                return client.name ~= "tsserver"
-              end,
-              async = true }
-          end, { desc = 'format', buffer = ev.buf })
         end,
       })
 
@@ -82,9 +75,13 @@ return {
       lspconfig.bashls.setup(default_setup)
       lspconfig.cmake.setup(default_setup)
       lspconfig.cssls.setup(default_setup)
-      lspconfig.eslint.setup(default_setup)
+      -- lspconfig.eslint.setup(default_setup)
       lspconfig.hls.setup(default_setup)
       lspconfig.html.setup(default_setup)
+      require('lspconfig').lua_ls.setup {
+        capabilities = capabilities(),
+        settings = { Lua = { telemetry = { enable = false } } }
+      }
       lspconfig.marksman.setup(default_setup)
       -- lspconfig.nil_ls.setup(default_setup)
       lspconfig.nixd.setup {
@@ -104,14 +101,14 @@ return {
       lspconfig.ruff.setup(default_setup)
       -- lspconfig.stylelint_lsp.setup(default_setup)
       lspconfig.texlab.setup(default_setup)
-      -- lspconfig.tsserver.setup {
-      --   ---@diagnostic disable-next-line: unused-local
-      --   on_attach = function(client, bufnr)
-      --     -- local ns = vim.lsp.diagnostic.get_namespace(client.id)
-      --     -- vim.diagnostic.enable(false, { ns_id = ns })
-      --   end,
-      --   capabilities = capabilities(),
-      -- }
+      lspconfig.ts_ls.setup {
+        ---@diagnostic disable-next-line: unused-local
+        on_attach = function(client, bufnr)
+          -- local ns = vim.lsp.diagnostic.get_namespace(client.id)
+          -- vim.diagnostic.enable(false, { ns_id = ns })
+        end,
+        capabilities = capabilities(),
+      }
       lspconfig.vimls.setup(default_setup)
     end
   },
@@ -157,20 +154,20 @@ return {
       require('lspconfig').clangd.setup(generate_default_setup())
     end
   },
-  {
-    'folke/neodev.nvim',
-    dependencies = 'neovim/nvim-lspconfig',
-    ft = 'lua',
-    event = 'BufRead .luarc.json',
-    config = function()
-      require('neodev').setup()
-
-      require('lspconfig').lua_ls.setup {
-        capabilities = capabilities(),
-        settings = { Lua = { telemetry = { enable = false } } }
-      }
-    end
-  },
+  -- {
+  --   'folke/neodev.nvim',
+  --   dependencies = 'neovim/nvim-lspconfig',
+  --   ft = 'lua',
+  --   event = 'BufRead .luarc.json',
+  --   config = function()
+  --     require('neodev').setup()
+  --
+  --     require('lspconfig').lua_ls.setup {
+  --       capabilities = capabilities(),
+  --       settings = { Lua = { telemetry = { enable = false } } }
+  --     }
+  --   end
+  -- },
   {
     'b0o/schemastore.nvim',
     dependencies = 'neovim/nvim-lspconfig',
