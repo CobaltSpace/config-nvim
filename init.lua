@@ -80,7 +80,7 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 vim.opt.mouse          = 'a'
 vim.opt.undofile       = true
 vim.opt.conceallevel   = 2
-vim.opt.concealcursor  = 'n'
+-- vim.opt.concealcursor  = 'n'
 vim.g.vimsyn_embed     = 'lmpPrt'
 vim.opt.spell          = true
 vim.opt.spelllang      = { 'en', 'cjk' }
