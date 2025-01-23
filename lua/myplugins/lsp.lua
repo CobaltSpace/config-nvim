@@ -12,7 +12,7 @@ return {
   {
     'neovim/nvim-lspconfig',
     dependencies = { 'j-hui/fidget.nvim', tag = "legacy", config = true },
-    ft = { 'arduino', 'awk', 'sh', 'cmake', 'css', 'haskell', 'html', 'javascript', 'javascriptreact', 'lhaskell', 'markdown', 'nix', 'python', 'sql', 'tex', 'typescript', 'vim' },
+    ft = { 'arduino', 'awk', 'sh', 'cmake', 'css', 'haskell', 'html', 'javascript', 'javascriptreact', 'lhaskell', 'lua', 'markdown', 'nix', 'python', 'sql', 'tex', 'typescript', 'vim' },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -78,7 +78,7 @@ return {
       -- lspconfig.eslint.setup(default_setup)
       lspconfig.hls.setup(default_setup)
       lspconfig.html.setup(default_setup)
-      require('lspconfig').lua_ls.setup {
+      lspconfig.lua_ls.setup {
         capabilities = capabilities(),
         settings = { Lua = { telemetry = { enable = false } } }
       }

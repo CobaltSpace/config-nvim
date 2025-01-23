@@ -88,6 +88,7 @@ vim.opt.number         = true
 vim.opt.relativenumber = true
 vim.opt.numberwidth    = 1
 vim.cmd.filetype 'indent on'
+vim.opt.smartindent = true
 vim.opt.expandtab = true
 vim.opt.list      = true
 vim.opt.lcs       = { tab = '▏ ' }
@@ -119,6 +120,8 @@ vim.api.nvim_create_autocmd('TermOpen', {
     vim.cmd.startinsert()
   end
 })
+
+vim.g.html_indent_autotags = 'html'
 
 -- vim.g.vimtex_compiler_program = 'nvr' -- nvr for vimtex
 -- vim.fn.setenv("EDITOR", "nvr")

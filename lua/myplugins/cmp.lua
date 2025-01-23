@@ -1,3 +1,14 @@
+local sources = {
+  { name = 'nvim_lsp' },
+  { name = 'path' },
+  { name = 'luasnip' },
+  { name = 'crates' },
+  -- { name = 'cmp_tabnine' },
+  -- { name = 'codeium' },
+  -- { name = 'cody' },
+  -- { name = 'supermaven' },
+  { name = 'buffer' },
+}
 return {
   {
     'hrsh7th/nvim-cmp', -- Autocompletion plugin
@@ -10,7 +21,7 @@ return {
         depedencies = { 'L3MON4D3/LuaSnip', version = '*' } -- Snippets plugin
       },
     },
-    event = 'InsertEnter',
+    -- event = 'InsertEnter',
     config = function()
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
@@ -50,21 +61,19 @@ return {
             end
           end,
         },
-        sources = {
-          { name = 'nvim_lsp' },
-          { name = 'path' },
-          { name = 'luasnip' },
-          { name = 'crates' },
-          -- { name = 'cmp_tabnine' },
-          -- { name = 'codeium' },
-          -- { name = 'cody' },
-          -- { name = 'supermaven' },
-          { name = 'buffer' },
-        },
+        sources = sources,
       }
 
       cmp.setup.filetype('org', { sources = { { name = 'orgmode' } } })
-      cmp.setup.filetype('lua', { sources = { { name = 'lazydev' } } })
+      cmp.setup.filetype('lua', {
+        sources = (function()
+          local ft_sources = sources
+          table.insert(ft_sources, {
+            name = "lazydev",
+            group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+          })
+        end)()
+      })
     end
   },
   {
@@ -98,11 +107,11 @@ return {
     ft = "lua", -- only load on lua files
     dependencies = 'neovim/nvim-lspconfig',
     opts = {
-      -- library = {
-      --   -- See the configuration section for more details
-      --   -- Load luvit types when the `vim.uv` word is found
-      --   { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-      -- },
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
     },
   },
 }
