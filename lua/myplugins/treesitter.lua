@@ -10,9 +10,10 @@ return {
       return {
         -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
         auto_install = true,
-        -- indent = {
-        --   enable = true,
-        -- },
+        indent = {
+          enable = true,
+          disable = { 'html' }
+        },
         highlight = {
           enable = true,
           -- disable = function(lang, bufnr)

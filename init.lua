@@ -90,6 +90,8 @@ vim.opt.numberwidth    = 1
 vim.cmd.filetype 'indent on'
 vim.opt.smartindent = true
 vim.opt.expandtab = true
+vim.opt.shiftwidth  = 2
+vim.opt.softtabstop = 2
 vim.opt.list      = true
 vim.opt.lcs       = { tab = '▏ ' }
 -- vim.g.c_syntax_for_h = 1

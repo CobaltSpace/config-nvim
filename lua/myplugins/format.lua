@@ -7,7 +7,12 @@ return {
       -- Customize or remove this keymap to your liking
       '<leader>f',
       function()
-        require('conform').format({ async = true })
+        require('conform').format {
+          async = true,
+          filter = function (client)
+            return client.name ~= "tsserver" and client.name ~= "typescript-tools"
+          end
+        }
       end,
       mode = '',
       desc = 'Format buffer',
@@ -22,10 +27,10 @@ return {
       -- lua = { 'stylua' },
       -- python = { "isort", "black" },
       -- javascript = { "prettierd", "prettier", stop_after_first = true },
-      json = { 'prettier' },
-      javascript = { 'prettier' },
-      typescript = { 'prettier' },
-      -- html = { 'prettier' },
+      -- json = { 'dprint' },
+      -- javascript = { 'dprint' },
+      -- typescript = { 'dprint' },
+      -- html = { 'dprint' },
     },
     -- Set default options
     default_format_opts = {

@@ -1,18 +1,11 @@
-local function capabilities()
-  return require('cmp_nvim_lsp').default_capabilities()
-end
-
-local function generate_default_setup()
-  return {
-    capabilities = capabilities()
-  }
-end
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+local default_setup = { capabilities = capabilities }
 
 return {
   {
     'neovim/nvim-lspconfig',
-    dependencies = { 'j-hui/fidget.nvim', tag = "legacy", config = true },
-    ft = { 'arduino', 'awk', 'sh', 'cmake', 'css', 'haskell', 'html', 'javascript', 'javascriptreact', 'lhaskell', 'lua', 'markdown', 'nix', 'python', 'sql', 'tex', 'typescript', 'vim' },
+    dependencies = { 'j-hui/fidget.nvim', tag = 'legacy', config = true },
+    ft = { 'arduino', 'awk', 'sh', 'cmake', 'css', 'haskell', 'html', 'lhaskell', 'lua', 'markdown', 'nix', 'python', 'sql', 'tex', 'vim' },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -68,24 +61,22 @@ return {
         silent = true,
       })
 
-      local default_setup = generate_default_setup()
-
       lspconfig.arduino_language_server.setup(default_setup)
       lspconfig.awk_ls.setup(default_setup)
       lspconfig.bashls.setup(default_setup)
+      lspconfig.biome.setup(default_setup)
       lspconfig.cmake.setup(default_setup)
       lspconfig.cssls.setup(default_setup)
-      -- lspconfig.eslint.setup(default_setup)
       lspconfig.hls.setup(default_setup)
       lspconfig.html.setup(default_setup)
       lspconfig.lua_ls.setup {
-        capabilities = capabilities(),
+        capabilities = capabilities,
         settings = { Lua = { telemetry = { enable = false } } }
       }
       lspconfig.marksman.setup(default_setup)
       -- lspconfig.nil_ls.setup(default_setup)
       lspconfig.nixd.setup {
-        capabilities = capabilities(),
+        capabilities = capabilities,
         settings = {
           nixd = {
             options = {
@@ -101,14 +92,6 @@ return {
       lspconfig.ruff.setup(default_setup)
       -- lspconfig.stylelint_lsp.setup(default_setup)
       lspconfig.texlab.setup(default_setup)
-      lspconfig.ts_ls.setup {
-        ---@diagnostic disable-next-line: unused-local
-        on_attach = function(client, bufnr)
-          -- local ns = vim.lsp.diagnostic.get_namespace(client.id)
-          -- vim.diagnostic.enable(false, { ns_id = ns })
-        end,
-        capabilities = capabilities(),
-      }
       lspconfig.vimls.setup(default_setup)
     end
   },
@@ -138,7 +121,7 @@ return {
             vim.keymap.set('n', '<Leader>a', rt.code_action_group.code_action_group,
               { desc = 'code action group', buffer = bufnr })
           end,
-          capabilities = capabilities()
+          capabilities = capabilities
         }
       }
     end
@@ -151,23 +134,33 @@ return {
       local inlay_hints = require 'clangd_extensions.inlay_hints'
       inlay_hints.setup_autocmd()
       inlay_hints.set_inlay_hints()
-      require('lspconfig').clangd.setup(generate_default_setup())
+      require('lspconfig').clangd.setup(default_setup)
     end
   },
-  -- {
-  --   'folke/neodev.nvim',
-  --   dependencies = 'neovim/nvim-lspconfig',
-  --   ft = 'lua',
-  --   event = 'BufRead .luarc.json',
-  --   config = function()
-  --     require('neodev').setup()
-  --
-  --     require('lspconfig').lua_ls.setup {
-  --       capabilities = capabilities(),
-  --       settings = { Lua = { telemetry = { enable = false } } }
-  --     }
-  --   end
-  -- },
+  {
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    ft = { 'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact', 'typescript.tsx' },
+    opts = function()
+      local lspconfig = require 'lspconfig'
+
+      -- lspconfig.eslint.setup {
+      --   capabilities = capabilities,
+      --   settings = {
+      --     format = false
+      --   }
+      -- }
+
+
+      return {
+        capabilities = capabilities,
+        -- on_attach = function(client)
+        --   client.server_capabilities.documentFormattingProvider = false
+        --   client.server_capabilities.documentRangeFormattingProvider = false
+        -- end,
+      }
+    end
+  },
   {
     'b0o/schemastore.nvim',
     dependencies = 'neovim/nvim-lspconfig',
@@ -178,12 +171,12 @@ return {
       lspconfig.jsonls.setup {
         cmd = { 'vscode-json-languageserver', '--stdio' },
         settings = { json = { schemas = require('schemastore').json.schemas(), validate = { enable = true } } },
-        capabilities = capabilities()
+        capabilities = capabilities
       }
 
       lspconfig.yamlls.setup {
         settings = { yaml = { schemas = require('schemastore').yaml.schemas() } },
-        capabilities = capabilities()
+        capabilities = capabilities
       }
     end
   },
