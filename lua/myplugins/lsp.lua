@@ -5,7 +5,7 @@ return {
   {
     'neovim/nvim-lspconfig',
     dependencies = { 'j-hui/fidget.nvim', tag = 'legacy', config = true },
-    ft = { 'arduino', 'awk', 'sh', 'cmake', 'css', 'haskell', 'html', 'lhaskell', 'lua', 'markdown', 'nix', 'python', 'sql', 'tex', 'vim' },
+    ft = { 'arduino', 'awk', 'sh', 'cmake', 'css', 'glsl', 'haskell', 'html', 'lhaskell', 'lua', 'markdown', 'nix', 'python', 'sql', 'svg', 'tex', 'vim' },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -67,12 +67,14 @@ return {
       lspconfig.biome.setup(default_setup)
       lspconfig.cmake.setup(default_setup)
       lspconfig.cssls.setup(default_setup)
+      lspconfig.glsl_analyzer.setup(default_setup)
       lspconfig.hls.setup(default_setup)
       lspconfig.html.setup(default_setup)
       lspconfig.lua_ls.setup {
         capabilities = capabilities,
         settings = { Lua = { telemetry = { enable = false } } }
       }
+      lspconfig.lemminx.setup(default_setup)
       lspconfig.marksman.setup(default_setup)
       -- lspconfig.nil_ls.setup(default_setup)
       lspconfig.nixd.setup {
@@ -82,6 +84,7 @@ return {
             options = {
               home_manager = {
                 expr = '(import <home-manager/modules> { configuration = ~/.config/home-manager/home.nix; pkgs = import <nixpkgs> {}; }).options'
+                -- expr = '(builtins.getFlake "${builtins.getEnv "HOME"}/.config/home-manager").homeConfigurations."${builtins.getEnv "USER"}".options',
               }
             }
           }
@@ -131,9 +134,9 @@ return {
     dependencies = 'neovim/nvim-lspconfig',
     ft = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
     config = function()
-      local inlay_hints = require 'clangd_extensions.inlay_hints'
-      inlay_hints.setup_autocmd()
-      inlay_hints.set_inlay_hints()
+      -- local inlay_hints = require 'clangd_extensions.inlay_hints'
+      -- inlay_hints.setup_autocmd()
+      -- inlay_hints.set_inlay_hints()
       require('lspconfig').clangd.setup(default_setup)
     end
   },

@@ -29,26 +29,24 @@ vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = ' '
 
-require('lazy').setup 'myplugins'
+vim.g.neovide_transparency    = 0.7
+vim.g.neovide_cursor_vfx_mode = 'railgun'
+
+vim.g.gui_font_default_size   = 12
+vim.g.gui_font_size           = vim.g.gui_font_default_size
+vim.g.gui_font_face           = 'FantasqueSansM Nerd Font'
 
 if vim.g.neovide then
-  vim.g.neovide_transparency    = 0.7
-  vim.g.neovide_cursor_vfx_mode = 'railgun'
-
-  vim.g.gui_font_default_size   = 12
-  vim.g.gui_font_size           = vim.g.gui_font_default_size
-  vim.g.gui_font_face           = 'FantasqueSansM Nerd Font'
-
-  RefreshGuiFont                = function()
+  RefreshGuiFont = function()
     vim.opt.guifont = string.format('%s:h%s', vim.g.gui_font_face, vim.g.gui_font_size)
   end
 
-  ResizeGuiFont                 = function(delta)
+  ResizeGuiFont  = function(delta)
     vim.g.gui_font_size = vim.g.gui_font_size + delta
     RefreshGuiFont()
   end
 
-  ResetGuiFont                  = function()
+  ResetGuiFont   = function()
     vim.g.gui_font_size = vim.g.gui_font_default_size
     RefreshGuiFont()
   end
@@ -89,11 +87,11 @@ vim.opt.relativenumber = true
 vim.opt.numberwidth    = 1
 vim.cmd.filetype 'indent on'
 vim.opt.smartindent = true
-vim.opt.expandtab = true
+vim.opt.expandtab   = true
 vim.opt.shiftwidth  = 2
 vim.opt.softtabstop = 2
-vim.opt.list      = true
-vim.opt.lcs       = { tab = '▏ ' }
+vim.opt.list        = true
+vim.opt.lcs         = { tab = '▏ ' }
 -- vim.g.c_syntax_for_h = 1
 
 vim.filetype.add {
@@ -141,4 +139,7 @@ vim.opt.guicursor:append 'a:blinkwait1-blinkon530-blinkoff530'
 -- }
 --
 -- vim.cmd.colorscheme(myColorSchemes[math.random(#myColorSchemes)])
+
+require('lazy').setup 'myplugins'
+
 vim.cmd.colorscheme 'catppuccin'

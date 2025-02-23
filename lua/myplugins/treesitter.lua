@@ -29,5 +29,6 @@ return {
     "folke/ts-comments.nvim",
     opts = { lang = { editorconfig = "# %s" } },
     event = "VeryLazy",
-  }
+  },
+  { 'AckslD/nvim-FeMaco.lua', config = true },
 }

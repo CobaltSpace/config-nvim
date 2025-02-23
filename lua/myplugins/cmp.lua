@@ -8,6 +8,7 @@ local sources = {
   -- { name = 'cody' },
   -- { name = 'supermaven' },
   { name = 'buffer' },
+  { name = 'codecompanion' },
 }
 return {
   {
